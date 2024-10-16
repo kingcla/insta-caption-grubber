@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-pattern = re.compile(r"\"(.*)\"")
+pattern = re.compile(r"\"(.*)\"", re.DOTALL)
 
 def get_instagram_reel_caption(url):
     try:
@@ -21,7 +21,7 @@ def get_instagram_reel_caption(url):
             if match:
                 return re.sub(r"\s*(#\w*)\s*", "", match.group(1))
             else:
-                return meta['content']
+                return content
         return None
     except Exception as e:
         print(f"Error fetching caption: {e}")
