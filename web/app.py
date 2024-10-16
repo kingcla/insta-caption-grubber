@@ -1,9 +1,9 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, send_from_directory
 import requests
 import re
 from bs4 import BeautifulSoup
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='static')
 
 pattern = re.compile(r"\"(.*)\"", re.DOTALL)
 
@@ -18,7 +18,7 @@ def get_instagram_reel_caption(url):
             content = meta['content']
             match = pattern.search(content)
 
-            if match:
+            if match:                
                 return re.sub(r"\s*(#\w*)\s*", "", match.group(1))
             else:
                 return content
@@ -42,8 +42,8 @@ def get_caption():
         return jsonify({'error': 'Could not extract caption'}), 500
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def serve_frontend():
+    return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
