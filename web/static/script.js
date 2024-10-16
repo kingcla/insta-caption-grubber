@@ -1,7 +1,14 @@
 async function getCaption() {
     const reelLink = document.getElementById("reelLink").value;
+    const errorBox = document.getElementById("errorBox");
+    const resultBox = document.getElementById("result");
+
+    // Clear previous errors and results
+    errorBox.style.display = 'none';
+    resultBox.style.display = 'none';
+
     if (!reelLink) {
-        alert("Please enter a valid Instagram reel link");
+        showError("Please enter a valid Instagram reel link");
         return;
     }
 
@@ -16,13 +23,22 @@ async function getCaption() {
 
         const data = await response.json();
         if (data.caption) {
-            document.getElementById("result").style.display = 'block';
-            document.getElementById("result").innerText = data.caption;
+            resultBox.style.display = 'block';
+            resultBox.innerText = data.caption;
+        } else if (data.error) {
+            showError(data.error);
         } else {
-            alert("Could not fetch caption. Please check the link or try again.");
+            showError("Could not fetch the caption. Please check the link or try again.");
         }
     } catch (error) {
         console.error("Error fetching the caption:", error);
-        alert("An error occurred. Please try again later.");
+        showError("An error occurred. Please try again later.");
     }
+}
+
+// Show an error message in the error box
+function showError(message) {
+    const errorBox = document.getElementById("errorBox");
+    errorBox.innerText = message;
+    errorBox.style.display = 'block';
 }
