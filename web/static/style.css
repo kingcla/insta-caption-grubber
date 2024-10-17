@@ -41,6 +41,33 @@ button:hover {
     border-radius: 5px;
     width: 300px;
     word-wrap: break-word;
+    position: relative;
+}
+
+.result p {
+    margin: 0;
+    padding-bottom: 10px;
+    white-space: pre-wrap;
+}
+
+button#copyButton {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button#copyButton:hover {
+    background-color: #218838;
+}
+
+/* Disabled button styling */
+button#copyButton:disabled {
+    background-color: #94d3a2;
+    cursor: not-allowed;
 }
 
 /* Error Box Styling */
